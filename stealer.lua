@@ -1,3 +1,6 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = OrionLib:MakeWindow({Name = "TSB Kill Stealer", HidePremium = false, SaveConfig = true, ConfigFolder = "TSBFarm"})
+
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
@@ -10,13 +13,64 @@ local selectedChar = ""
 if not _G.workChars then
 	_G.workChars = {"Hunter", "Cyborg", "Ninja", "Blade"}
 	_G.whiteList = true
-	_G.activated = true -- false to disable
+	_G.activated = false -- false to disable
 	_G.killDummy = true -- false to disable
 	_G.safeSelf = true -- false to disable
 	_G.safeProp = 15
 	_G.chargeUp = false 
 	_G.killing = false
 end
+
+local Tab = Window:MakeTab({
+	Name = "Main",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local Section = Tab:AddSection({
+	Name = "Main"
+})
+
+Tab:AddToggle({
+	Name = "Toggle",
+	Default = false,
+	Callback = function(Value)
+		print(Value)
+        _G.activated = Value
+	end    
+})
+
+Tab:AddToggle({
+	Name = "Whitelist friends (Do not kill they)",
+	Default = true,
+	Callback = function(Value)
+		print(Value)
+        _G.whitelist = Value
+	end    
+})
+
+Tab:AddToggle({
+	Name = "Safe Self (Do not steal, if u has lower than Safe Prop hp)",
+	Default = true,
+	Callback = function(Value)
+		print(Value)
+        _G.whitelist = safeSelf 
+	end    
+})
+
+Tab:AddSlider({
+	Name = "Safe Prop",
+	Min = 0,
+	Max = 100,
+	Default = 15,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "HP",
+	Callback = function(Value)
+		print(Value)
+        _G.safeProp = Value
+	end    
+})
 
 local function onCharAdded(char)
 	char:WaitForChild("Humanoid"):GetPropertyChangedSignal("Health"):Connect(function()
@@ -347,3 +401,10 @@ for _, plr in Players:GetPlayers() do
 	end
 end
 Players.PlayerAdded:Connect(onPlrAdded)
+
+OrionLib:MakeNotification({
+	Name = "TSB Kill stealer!",
+	Content = "Script Successfully loaded",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
