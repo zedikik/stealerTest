@@ -261,7 +261,7 @@ local function onCharAdded(char)
 						until _G.killing == false
 					end)()
 
-					task.wait(0.5)
+					task.wait(3.5)
 					_G.killing = false
 
 				elseif not playerGui.Hotbar.Backpack.Hotbar["2"].Base:FindFirstChild("Cooldown") then
