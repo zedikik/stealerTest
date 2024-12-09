@@ -26,6 +26,7 @@ local function onCharAdded(char)
 		if _G.killing == true then return end
 		if _G.chargeUp == true then return end
 		if working == false then return end
+		print(char.Name, "Target")
 
 		if selectedChar ~= "" or selectedChar ~= nil then
 			if selectedChar == "Cyborg" then
