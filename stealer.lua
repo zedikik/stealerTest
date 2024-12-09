@@ -10,6 +10,16 @@ local ftotalKills = 0
 local madedKills = 0
 local selectedChar = ""
 
+_G.workChars = {"Bald", "Cyborg", "Hunter", "Ninja"}
+_G.activated = true -- false to disable
+_G.killDummy = true -- false to disable
+_G.clearKillstreak = true -- false to disable
+_G.safeSelf = true -- false to disable
+_G.safeProp = 15
+_G.chargeUp = false 
+_G.killing = false
+
+
 local function onCharAdded(char)
 	char:WaitForChild("Humanoid"):GetPropertyChangedSignal("Health"):Connect(function()
 		if not char:FindFirstChild("HumanoidRootPart") then return end
@@ -50,6 +60,7 @@ local function onCharAdded(char)
 					end
 
 					_G.killing = false
+					
 				elseif not playerGui.Hotbar.Backpack.Hotbar["3"].Base:FindFirstChild("Cooldown") then
 					_G.chargeUp = true
 					localPlayer.Character.Communicate:FireServer({
@@ -144,7 +155,7 @@ local function onCharAdded(char)
 
 					localPlayer.Character.Communicate:FireServer({
 						["Goal"] = "Console Move",
-						["Tool"] = localPlayer.Backpack:WaitForChild([[Hunster's Grasp]])
+						["Tool"] = localPlayer.Backpack:WaitForChild([[Hunter's Grasp]])
 					})
 
 					task.wait(2)
@@ -284,4 +295,7 @@ for _, plr in Players:GetPlayers() do
 		onPlrAdded(plr)
 	end
 end
+localPlayer.CharacterAdded:Connect(function()
+	madedKills = 0
+end)
 Players.PlayerAdded:Connect(onPlrAdded)
