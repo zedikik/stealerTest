@@ -195,7 +195,7 @@ local function onCharAdded(char)
 							until _G.killing == false
 						end)()
 
-						task.wait(1.5)
+						task.wait(3)
 						_G.killing = false
 					end
 
