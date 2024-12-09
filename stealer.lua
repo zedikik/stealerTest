@@ -41,7 +41,7 @@ Tab:AddToggle({
 })
 
 Tab:AddToggle({
-	Name = "Whitelist friends (Do not kill they)",
+	Name = "Whitelist (Do not kill ur friends)",
 	Default = true,
 	Callback = function(Value)
 		print(Value)
