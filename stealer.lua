@@ -5,17 +5,23 @@ local localPlayer = game.Players.LocalPlayer
 local playerGui = localPlayer.PlayerGui
 
 local working = false
-local totalKills = localPlayer.leaderstats["Total Kills"]
-local ftotalKills = 0
-local madedKills = 0
 local selectedChar = ""
+
+_G.workChars = {"Bald", "Cyborg", "Hunter", "Ninja"}
+_G.whiteList = true
+_G.activated = true -- false to disable
+_G.killDummy = true -- false to disable
+_G.safeSelf = true -- false to disable
+_G.safeProp = 15
+_G.chargeUp = false 
+_G.killing = false
+
 
 local function onCharAdded(char)
 	char:WaitForChild("Humanoid"):GetPropertyChangedSignal("Health"):Connect(function()
 		if not char:FindFirstChild("HumanoidRootPart") then return end
 		if math.floor(char.Humanoid.Health) > 15 then return end
 		if _G.safeSelf == true and localPlayer.Character.Humanoid.Health <= _G.safeProp then return end
-		if _G.clearKillstreak == true and madedKills == 9 then localPlayer.Character.Humanoid.Health = 0; madedKills = 0; return end
 		if _G.killing == true then return end
 		if _G.chargeUp == true then return end
 		if working == false then return end
@@ -24,13 +30,10 @@ local function onCharAdded(char)
 			if selectedChar == "Cyborg" then
 				if not playerGui.Hotbar.Backpack.Hotbar["4"].Base:FindFirstChild("Cooldown") then
 					_G.killing = true
-					print(madedKills)
-					ftotalKills = totalKills.Value
 
 					coroutine.wrap(function()
 						local s = tick()
 						while tick() - s < 1.65 do
-							if not localPlayer.Character then warn("to") break end
 							local cf = char.HumanoidRootPart.CFrame
 							localPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(cf.Position.X, cf.Position.Y, cf.Position.Z + 65) + char.Humanoid.MoveDirection * char.Humanoid.WalkSpeed * 1.25, Vector3.new(char.HumanoidRootPart.Position.X, localPlayer.Character.HumanoidRootPart.Position.Y, char.HumanoidRootPart.Position.Z))
 							task.wait()
@@ -44,10 +47,6 @@ local function onCharAdded(char)
 					})
 
 					task.wait(4)
-					if totalKills.Value ~= ftotalKills then
-						madedKills += (totalKills / 2)
-						print(madedKills)
-					end
 
 					_G.killing = false
 
@@ -279,7 +278,7 @@ local function onPlrAdded(plr)
 			return
 		end
 	end
-	
+
 	plr.CharacterAdded:Connect(onCharAdded)
 	if plr.Character then
 		onCharAdded(plr.Character)
