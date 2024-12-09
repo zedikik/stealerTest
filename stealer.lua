@@ -28,7 +28,7 @@ local Tab = Window:MakeTab({
 })
 
 local Section = Tab:AddSection({
-	Name = "Main"
+	Name = "Kills Farm (afk kill stealer)"
 })
 
 Tab:AddToggle({
