@@ -7,6 +7,16 @@ local playerGui = localPlayer.PlayerGui
 local working = false
 local selectedChar = ""
 
+_G.workChars = {"Hunter", "Cyborg", "Ninja", "Blade"}
+_G.whiteList = true
+_G.activated = true -- false to disable
+_G.killDummy = true -- false to disable
+_G.safeSelf = true -- false to disable
+_G.safeProp = 15
+_G.chargeUp = false 
+_G.killing = false
+
+
 local function onCharAdded(char)
 	char:WaitForChild("Humanoid"):GetPropertyChangedSignal("Health"):Connect(function()
 		if not char:FindFirstChild("HumanoidRootPart") then return end
@@ -248,7 +258,7 @@ local function onCharAdded(char)
 						until _G.killing == false
 					end)()
 
-					task.wait(1)
+					task.wait(0.5)
 					_G.killing = false
 
 				elseif not playerGui.Hotbar.Backpack.Hotbar["2"].Base:FindFirstChild("Cooldown") then
@@ -283,7 +293,7 @@ local function onCharAdded(char)
 
 					localPlayer.Character.Communicate:FireServer({
 						["Goal"] = "Console Move",
-						["Tool"] = localPlayer.Backpack:WaitForChild("Atmos Cleave")
+						["Tool"] = localPlayer.Backpack:WaitForChild("Pinpoint Cut")
 					})
 
 					task.wait(1)
