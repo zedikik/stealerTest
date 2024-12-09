@@ -7,15 +7,16 @@ local playerGui = localPlayer.PlayerGui
 local working = false
 local selectedChar = ""
 
-_G.workChars = {"Hunter", "Cyborg", "Ninja", "Blade"}
-_G.whiteList = true
-_G.activated = true -- false to disable
-_G.killDummy = true -- false to disable
-_G.safeSelf = true -- false to disable
-_G.safeProp = 15
-_G.chargeUp = false 
-_G.killing = false
-
+if not _G.workChars then
+	_G.workChars = {"Hunter", "Cyborg", "Ninja", "Blade"}
+	_G.whiteList = true
+	_G.activated = true -- false to disable
+	_G.killDummy = true -- false to disable
+	_G.safeSelf = true -- false to disable
+	_G.safeProp = 15
+	_G.chargeUp = false 
+	_G.killing = false
+end
 
 local function onCharAdded(char)
 	char:WaitForChild("Humanoid"):GetPropertyChangedSignal("Health"):Connect(function()
