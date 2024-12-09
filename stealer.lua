@@ -281,7 +281,7 @@ local function onCharAdded(char)
 						["Tool"] = localPlayer.Backpack:WaitForChild("Atmos Cleave")
 					})
 
-					task.wait(2)
+					task.wait(4)
 					_G.killing = false
 						
 				else
