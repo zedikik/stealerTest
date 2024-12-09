@@ -277,12 +277,12 @@ local function onPlrAdded(plr)
 	if _G.whiteList == true then
 		if plr:IsFriendsWith(localPlayer.UserId) then
 			return
-		else
-			plr.CharacterAdded:Connect(onCharAdded)
-			if plr.Character then
-				onCharAdded(plr.Character)
-			end
-		end 
+		end
+	end
+	
+	plr.CharacterAdded:Connect(onCharAdded)
+	if plr.Character then
+		onCharAdded(plr.Character)
 	end
 end
 
@@ -295,6 +295,8 @@ for _, plr in Players:GetPlayers() do
 				onPlrAdded(plr)
 			end
 		end
+	else
+		onPlrAdded(plr)
 	end
 end
 localPlayer.CharacterAdded:Connect(function()
