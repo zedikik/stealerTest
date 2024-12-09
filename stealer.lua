@@ -243,6 +243,7 @@ local function onCharAdded(char)
 
 			elseif selectedChar == "Blade" then
 				if not playerGui.Hotbar.Backpack.Hotbar["1"].Base:FindFirstChild("Cooldown") then
+						print(1)
 					_G.chargeUp = true
 					localPlayer.Character.Communicate:FireServer({
 						["Goal"] = "Console Move",
@@ -264,12 +265,13 @@ local function onCharAdded(char)
 					_G.killing = false
 
 				elseif not playerGui.Hotbar.Backpack.Hotbar["2"].Base:FindFirstChild("Cooldown") then
+						print(2)
 					_G.killing = true
 
 					coroutine.wrap(function()
 						repeat
 							local cf = char.HumanoidRootPart.CFrame
-							localPlayer.Character.HumanoidRootPart.CFrame = cf - (cf.LookVector * 5) + char.Humanoid.MoveDirection
+							localPlayer.Character.HumanoidRootPart.CFrame = cf - (cf.LookVector * 4.5) + char.Humanoid.MoveDirection
 							task.wait()
 						until _G.killing == false
 					end)()
@@ -281,26 +283,7 @@ local function onCharAdded(char)
 
 					task.wait(2)
 					_G.killing = false
-
-				elseif not playerGui.Hotbar.Backpack.Hotbar["3"].Base:FindFirstChild("Cooldown") then
-					_G.killing = true
-
-					coroutine.wrap(function()
-						repeat
-							local cf = char.HumanoidRootPart.CFrame
-							localPlayer.Character.HumanoidRootPart.CFrame = cf - (cf.LookVector * 7) + char.Humanoid.MoveDirection
-							task.wait()
-						until _G.killing == false
-					end)()
-
-					localPlayer.Character.Communicate:FireServer({
-						["Goal"] = "Console Move",
-						["Tool"] = localPlayer.Backpack:WaitForChild("Pinpoint Cut")
-					})
-
-					task.wait(1)
-					_G.killing = false
-
+						
 				else
 					warn("CD")
 				end
