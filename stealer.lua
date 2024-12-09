@@ -7,16 +7,6 @@ local playerGui = localPlayer.PlayerGui
 local working = false
 local selectedChar = ""
 
-_G.workChars = {"Bald", "Cyborg", "Hunter", "Ninja"}
-_G.whiteList = true
-_G.activated = true -- false to disable
-_G.killDummy = true -- false to disable
-_G.safeSelf = true -- false to disable
-_G.safeProp = 15
-_G.chargeUp = false 
-_G.killing = false
-
-
 local function onCharAdded(char)
 	char:WaitForChild("Humanoid"):GetPropertyChangedSignal("Health"):Connect(function()
 		if not char:FindFirstChild("HumanoidRootPart") then return end
@@ -216,31 +206,94 @@ local function onCharAdded(char)
 					task.wait(2)
 					_G.killing = false
 
+				elseif not playerGui.Hotbar.Backpack.Hotbar["3"].Base:FindFirstChild("Cooldown") then
+					_G.killing = true
+
+					coroutine.wrap(function()
+						repeat
+							local cf = char.HumanoidRootPart.CFrame
+							localPlayer.Character.HumanoidRootPart.CFrame = cf - (cf.LookVector * 0) + char.Humanoid.MoveDirection
+							task.wait()
+						until _G.killing == false
+					end)()
+
+					localPlayer.Character.Communicate:FireServer({
+						["Goal"] = "Console Move",
+						["Tool"] = localPlayer.Backpack:WaitForChild("Scatter")
+					})
+
+					task.wait(4)
+					_G.killing = false
+
 				else
 					warn("CD")
 				end
 
-			elseif not playerGui.Hotbar.Backpack.Hotbar["3"].Base:FindFirstChild("Cooldown") then
-				_G.killing = true
+			elseif selectedChar == "Blade" then
+				if not playerGui.Hotbar.Backpack.Hotbar["1"].Base:FindFirstChild("Cooldown") then
+					_G.chargeUp = true
+					localPlayer.Character.Communicate:FireServer({
+						["Goal"] = "Console Move",
+						["Tool"] = localPlayer.Backpack:WaitForChild("Quick Slice")
+					})
+					task.wait(0.2)
+					_G.chargeUp = false
+					_G.killing = true
 
-				coroutine.wrap(function()
-					repeat
-						local cf = char.HumanoidRootPart.CFrame
-						localPlayer.Character.HumanoidRootPart.CFrame = cf - (cf.LookVector * 0) + char.Humanoid.MoveDirection
-						task.wait()
-					until _G.killing == false
-				end)()
+					coroutine.wrap(function()
+						repeat
+							local cf = char.HumanoidRootPart.CFrame
+							localPlayer.Character.HumanoidRootPart.CFrame = cf - (cf.LookVector * 6) + char.Humanoid.MoveDirection
+							task.wait()
+						until _G.killing == false
+					end)()
 
-				localPlayer.Character.Communicate:FireServer({
-					["Goal"] = "Console Move",
-					["Tool"] = localPlayer.Backpack:WaitForChild("Scatter")
-				})
+					task.wait(1)
+					_G.killing = false
 
-				task.wait(4)
-				_G.killing = false
+				elseif not playerGui.Hotbar.Backpack.Hotbar["2"].Base:FindFirstChild("Cooldown") then
+					_G.killing = true
 
+					coroutine.wrap(function()
+						repeat
+							local cf = char.HumanoidRootPart.CFrame
+							localPlayer.Character.HumanoidRootPart.CFrame = cf - (cf.LookVector * 3) + char.Humanoid.MoveDirection
+							task.wait()
+						until _G.killing == false
+					end)()
+
+					localPlayer.Character.Communicate:FireServer({
+						["Goal"] = "Console Move",
+						["Tool"] = localPlayer.Backpack:WaitForChild("Atmos Cleave")
+					})
+
+					task.wait(2)
+					_G.killing = false
+
+				elseif not playerGui.Hotbar.Backpack.Hotbar["3"].Base:FindFirstChild("Cooldown") then
+					_G.killing = true
+
+					coroutine.wrap(function()
+						repeat
+							local cf = char.HumanoidRootPart.CFrame
+							localPlayer.Character.HumanoidRootPart.CFrame = cf - (cf.LookVector * 6) + char.Humanoid.MoveDirection
+							task.wait()
+						until _G.killing == false
+					end)()
+
+					localPlayer.Character.Communicate:FireServer({
+						["Goal"] = "Console Move",
+						["Tool"] = localPlayer.Backpack:WaitForChild("Atmos Cleave")
+					})
+
+					task.wait(1)
+					_G.killing = false
+
+				else
+					warn("CD")
+				end
 			else
-				warn(selectedChar)
+				warn(selectedChar, "changedchar")
 			end
 		end
 	end)
@@ -257,7 +310,7 @@ RunService.Heartbeat:Connect(function()
 		end
 		if not has or has == false then
 			working = false
-			warn(localPlayer.Character:GetAttribute("Character"))
+			warn(localPlayer.Character:GetAttribute("Character"), "has = false")
 		else
 			working = true
 		end
@@ -298,7 +351,4 @@ for _, plr in Players:GetPlayers() do
 		onPlrAdded(plr)
 	end
 end
-localPlayer.CharacterAdded:Connect(function()
-	madedKills = 0
-end)
 Players.PlayerAdded:Connect(onPlrAdded)
