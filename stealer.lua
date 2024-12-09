@@ -10,16 +10,6 @@ local ftotalKills = 0
 local madedKills = 0
 local selectedChar = ""
 
-_G.workChars = {"Bald", "Cyborg", "Hunter", "Ninja"}
-_G.activated = true -- false to disable
-_G.killDummy = true -- false to disable
-_G.clearKillstreak = true -- false to disable
-_G.safeSelf = true -- false to disable
-_G.safeProp = 15
-_G.chargeUp = false 
-_G.killing = false
-
-
 local function onCharAdded(char)
 	char:WaitForChild("Humanoid"):GetPropertyChangedSignal("Health"):Connect(function()
 		if not char:FindFirstChild("HumanoidRootPart") then return end
@@ -60,7 +50,7 @@ local function onCharAdded(char)
 					end
 
 					_G.killing = false
-					
+
 				elseif not playerGui.Hotbar.Backpack.Hotbar["3"].Base:FindFirstChild("Cooldown") then
 					_G.chargeUp = true
 					localPlayer.Character.Communicate:FireServer({
@@ -284,15 +274,27 @@ RunService.Heartbeat:Connect(function()
 end)
 
 local function onPlrAdded(plr)
-	plr.CharacterAdded:Connect(onCharAdded)
-	if plr.Character then
-		onCharAdded(plr.Character)
+	if _G.whiteList == true then
+		if plr:IsFriendsWith(localPlayer.UserId) then
+			return
+		else
+			plr.CharacterAdded:Connect(onCharAdded)
+			if plr.Character then
+				onCharAdded(plr.Character)
+			end
+		end 
 	end
 end
 
 for _, plr in Players:GetPlayers() do
-	if plr ~= localPlayer then
-		onPlrAdded(plr)
+	if _G.whiteList == true then
+		if plr ~= localPlayer then
+			if plr:IsFriendsWith(localPlayer.UserId) then
+				return
+			else
+				onPlrAdded(plr)
+			end
+		end
 	end
 end
 localPlayer.CharacterAdded:Connect(function()
