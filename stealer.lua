@@ -75,7 +75,7 @@ Tab:AddSlider({
 local function onCharAdded(char)
 	char:WaitForChild("Humanoid"):GetPropertyChangedSignal("Health"):Connect(function()
 		if not char:FindFirstChild("HumanoidRootPart") then return end
-		if math.floor(char.Humanoid.Health) > 15 then return end
+		if math.floor(char.Humanoid.Health) > 15 and (math.floor(char.Humanoid.Health) ~= 0 or math.floor(char.Humanoid.Health) ~= 1) then return end
 		if _G.safeSelf == true and localPlayer.Character.Humanoid.Health <= _G.safeProp then return end
 		if _G.killing == true then return end
 		if _G.chargeUp == true then return end
@@ -520,6 +520,6 @@ Players.PlayerAdded:Connect(onPlrAdded)
 OrionLib:MakeNotification({
 	Name = "TSB Kill stealer!",
 	Content = "Script Successfully loaded",
-	Image = "rbxassetid://4483345998",
+	Image = "rbxassetid://0",
 	Time = 5
 })
