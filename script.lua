@@ -79,7 +79,7 @@ Tab:AddButton({
 Tab:AddButton({
 	Name = "Copy Key Link",
 	Callback = function()
-		local keyStr = "Скуфчик блять, вот твой ключ: ".._G.Key
+		local keyStr = "Skyf4ik blyat, vjt tvoi kluc: ".._G.Key
 		setclipboard(keyStr)
 	end    
 }) 
