@@ -11,9 +11,9 @@ local working = false
 local selectedChar = ""
 
 if not _G.workChars then
-	_G.workChars = {"Hunter", "Cyborg", "Ninja", "Blade"}
+	_G.workChars = {"Hunter", "Cyborg", "Ninja", "Esper", "Blade"}
 	_G.whiteList = true
-	_G.activated = false -- false to disable
+	_G.activated = true -- false to disable
 	_G.killDummy = true -- false to disable
 	_G.safeSelf = true -- false to disable
 	_G.safeProp = 15
@@ -80,7 +80,6 @@ local function onCharAdded(char)
 		if _G.killing == true then return end
 		if _G.chargeUp == true then return end
 		if working == false then return end
-		print(char.Name, "Target")
 
 		if selectedChar ~= "" or selectedChar ~= nil then
 			if selectedChar == "Cyborg" then
@@ -231,7 +230,7 @@ local function onCharAdded(char)
 					_G.killing = false
 
 				elseif not playerGui.Hotbar.Backpack.Hotbar["2"].Base:FindFirstChild("Cooldown") then
-					if char.Humanoid.Health > 12 then
+					if char.Humanoid.Health < 12 then
 						_G.chargeUp = true
 						localPlayer.Character.Communicate:FireServer({
 							["Goal"] = "Console Move",
@@ -249,7 +248,7 @@ local function onCharAdded(char)
 							until _G.killing == false
 						end)()
 
-						task.wait(3)
+						task.wait(1.5)
 						_G.killing = false
 					end
 
@@ -295,9 +294,107 @@ local function onCharAdded(char)
 					warn("CD")
 				end
 
+			elseif selectedChar == "Esper" then
+				if not playerGui.Hotbar.Backpack.Hotbar["1"].Base:FindFirstChild("Cooldown") then
+					if char.Humanoid.Health <= 13 then
+						_G.killing = true
+
+						coroutine.wrap(function()
+							repeat
+								local cf = char.HumanoidRootPart.CFrame
+								localPlayer.Character.HumanoidRootPart.CFrame = cf - (cf.LookVector * 4.5) + char.Humanoid.MoveDirection
+								task.wait()
+							until _G.killing == false
+						end)()
+
+						task.wait(0.25)
+
+						localPlayer.Character.Communicate:FireServer({
+							["Goal"] = "Console Move",
+							["Tool"] = localPlayer.Backpack:WaitForChild("Crushing Pull")
+						})
+
+						task.wait(2)
+						_G.killing = false
+					end
+
+
+				elseif not playerGui.Hotbar.Backpack.Hotbar["3"].Base:FindFirstChild("Cooldown") then
+					if char.Humanoid.Health <= 12 then
+						_G.chargeUp = true
+						localPlayer.Character.Communicate:FireServer({
+							["Goal"] = "Console Move",
+							["Tool"] = localPlayer.Backpack:WaitForChild("Stone Coffin")
+						})
+						task.wait(0.15)
+						_G.chargeUp = false
+						_G.killing = true
+
+						coroutine.wrap(function()
+							repeat
+								local cf = char.HumanoidRootPart.CFrame
+								localPlayer.Character.HumanoidRootPart.CFrame = cf - (cf.LookVector * 3) + char.Humanoid.MoveDirection
+								task.wait()
+							until _G.killing == false
+						end)()
+
+						task.wait(1.5)
+						_G.killing = false
+					end
+
+				elseif not playerGui.Hotbar.Backpack.Hotbar["4"].Base:FindFirstChild("Cooldown") then
+					if char.Humanoid.Health <= 13 then
+						_G.chargeUp = true
+						localPlayer.Character.Communicate:FireServer({
+							["Goal"] = "Console Move",
+							["Tool"] = localPlayer.Backpack:WaitForChild("Expulsive Push")
+						})
+						task.wait(1)
+						localPlayer.Character.Communicate:FireServer({
+							["Goal"] = "Console Move",
+							["Tool"] = localPlayer.Backpack:WaitForChild("Expulsive Push")
+						})
+						_G.chargeUp = false
+						_G.killing = true
+
+						coroutine.wrap(function()
+							repeat
+								local cf = char.HumanoidRootPart.CFrame
+								localPlayer.Character.HumanoidRootPart.CFrame = cf - (cf.LookVector * 1.5) + char.Humanoid.MoveDirection
+								task.wait()
+							until _G.killing == false
+						end)()
+
+						task.wait(1.5)
+						_G.killing = false
+					end
+
+				elseif not playerGui.Hotbar.Backpack.Hotbar["2"].Base:FindFirstChild("Cooldown") then
+					if char.Humanoid.Health <= 8 then
+						_G.killing = true
+						localPlayer.Character.Communicate:FireServer({
+							["Goal"] = "Console Move",
+							["Tool"] = localPlayer.Backpack:WaitForChild("Windstorm Fury")
+						})
+
+						coroutine.wrap(function()
+							repeat
+								local cf = char.HumanoidRootPart.CFrame
+								localPlayer.Character.HumanoidRootPart.CFrame = cf - (cf.LookVector * 1.5) + char.Humanoid.MoveDirection
+								task.wait()
+							until _G.killing == false
+						end)()
+
+						task.wait(1.5)
+						_G.killing = false
+					end
+
+				else
+					warn("CD")
+				end
+
 			elseif selectedChar == "Blade" then
 				if not playerGui.Hotbar.Backpack.Hotbar["1"].Base:FindFirstChild("Cooldown") then
-						print(1)
 					_G.chargeUp = true
 					localPlayer.Character.Communicate:FireServer({
 						["Goal"] = "Console Move",
@@ -310,22 +407,21 @@ local function onCharAdded(char)
 					coroutine.wrap(function()
 						repeat
 							local cf = char.HumanoidRootPart.CFrame
-							localPlayer.Character.HumanoidRootPart.CFrame = cf - (cf.LookVector * 7.5) + char.Humanoid.MoveDirection
+							localPlayer.Character.HumanoidRootPart.CFrame = cf - (cf.LookVector * 6) + char.Humanoid.MoveDirection
 							task.wait()
 						until _G.killing == false
 					end)()
 
-					task.wait(3.5)
+					task.wait(0.5)
 					_G.killing = false
 
 				elseif not playerGui.Hotbar.Backpack.Hotbar["2"].Base:FindFirstChild("Cooldown") then
-						print(2)
 					_G.killing = true
 
 					coroutine.wrap(function()
 						repeat
 							local cf = char.HumanoidRootPart.CFrame
-							localPlayer.Character.HumanoidRootPart.CFrame = cf - (cf.LookVector * 4.5) + char.Humanoid.MoveDirection
+							localPlayer.Character.HumanoidRootPart.CFrame = cf - (cf.LookVector * 3) + char.Humanoid.MoveDirection
 							task.wait()
 						until _G.killing == false
 					end)()
@@ -335,9 +431,28 @@ local function onCharAdded(char)
 						["Tool"] = localPlayer.Backpack:WaitForChild("Atmos Cleave")
 					})
 
-					task.wait(4)
+					task.wait(2)
 					_G.killing = false
-						
+
+				elseif not playerGui.Hotbar.Backpack.Hotbar["3"].Base:FindFirstChild("Cooldown") then
+					_G.killing = true
+
+					coroutine.wrap(function()
+						repeat
+							local cf = char.HumanoidRootPart.CFrame
+							localPlayer.Character.HumanoidRootPart.CFrame = cf - (cf.LookVector * 6) + char.Humanoid.MoveDirection
+							task.wait()
+						until _G.killing == false
+					end)()
+
+					localPlayer.Character.Communicate:FireServer({
+						["Goal"] = "Console Move",
+						["Tool"] = localPlayer.Backpack:WaitForChild("Pinpoint Cut")
+					})
+
+					task.wait(1)
+					_G.killing = false
+
 				else
 					warn("CD")
 				end
