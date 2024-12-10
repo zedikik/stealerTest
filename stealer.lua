@@ -60,8 +60,8 @@ Tab:AddToggle({
 	Name = "Safe Self (Do not steal, if u has lower than Safe Prop hp)",
 	Default = true,
 	Callback = function(Value)
-		print(Value)
-        _G.whitelist = safeSelf 
+        	_G.whitelist = Value
+		print(_G.whitelist)
 	end    
 })
 
