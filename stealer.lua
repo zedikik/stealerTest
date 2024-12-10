@@ -1,4 +1,11 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+OrionLib:MakeNotification({
+	Name = "TSB Kill stealer!",
+	Content = "Loading script...",
+	Image = "rbxassetid://0",
+	Time = 5
+})
+
 local Window = OrionLib:MakeWindow({Name = "TSB Kill Stealer", HidePremium = false, SaveConfig = true, ConfigFolder = "TSBFarm"})
 
 local Players = game:GetService("Players")
@@ -520,6 +527,6 @@ Players.PlayerAdded:Connect(onPlrAdded)
 OrionLib:MakeNotification({
 	Name = "TSB Kill stealer!",
 	Content = "Script Successfully loaded",
-	Image = "rbxassetid://0",
+	Image = "rbxassetid://11157772253",
 	Time = 5
 })
