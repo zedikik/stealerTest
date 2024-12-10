@@ -79,7 +79,7 @@ Tab:AddButton({
 Tab:AddButton({
 	Name = "Copy Key Link",
 	Callback = function()
-		local keyStr = "Skyf4ik blyat, vjt tvoi kluc: ".._G.Key
+		local keyStr = "https://linkvertise.com/850801/free-key-checkpoint-1?o=sharing" --"Skyf4ik blyat, vjt tvoi kluc: ".._G.Key
 		setclipboard(keyStr)
 	end    
 }) 
